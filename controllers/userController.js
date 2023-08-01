@@ -72,7 +72,27 @@ const signUp = (req, res) => {
             }
         });
     }
+}
 
+const logIn = async (req, res) => {
+    const body = req.body;
+    const {email, password} = body;
+    console.log(body);
+    if (Object.keys(body).length === 0) {
+        res.status(400).json("message:no data provided");
+    } else {
+        await User.findOne({email}).then((value) => {
+            console.log(value);
+            bcrypt.compare(password, value.password, function (err, result){
+                if (err){
+                    res.status(400).json("message: something went wrong");
+                } else {
+                    console.log(result);
+                    res.json(`Do passwords match, ${result}`);
+                }
+            });
+        });
+    }
 
 }
 
