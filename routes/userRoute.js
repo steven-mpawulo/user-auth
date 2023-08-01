@@ -2,7 +2,7 @@ const express = require('express');
 const userRoute = express.Router();
 
 
-const {createUser, retreiveUsers, retreiveSingleUser} = require('../controllers/userController');
+const {createUser, retreiveUsers, retreiveSingleUser, signUp} = require('../controllers/userController');
 
 
 // add user to database
@@ -15,9 +15,7 @@ userRoute.get("/users", retreiveUsers);
 userRoute.get("/users/:id", retreiveSingleUser);
 
 // user signup
-userRoute.post("/signup", (req, res) => {
-    console.log("On sign up user route");
-});
+userRoute.post("/signup", signUp);
 // user login
 userRoute.post("/login", (req, res) =>{
     console.log("On login route");
