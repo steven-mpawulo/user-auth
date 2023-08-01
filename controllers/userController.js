@@ -16,6 +16,10 @@ const createUser = async (req, res) => {
             console.log(value);
             console.log("User information saved");
             res.json(value);
+        }).catch((e) => {
+            console.log(e);
+
+            res.status(400).json(e.message);
         });
         
 
