@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const bcrypt = require('bcrypt');
 const createUser = async (req, res) => {
     const body = req.body;
     console.log(body);
@@ -48,5 +49,32 @@ const retreiveSingleUser = async (req, res) => {
 
 }
 
+const signUp = (req, res) => {
+    const body = req.body;
+    console.log(body);
+    if (Object.keys(body).length === 0){
+        res.status(400).json("message: you didnt provide any data");
+    } else {
+        bcrypt.hash(body.password, 10, async function(err, hash){
+            if(err){
+                console.log("Some thing we wrong");
+                res.status(400).json("message: error");
+            } else {
+                const userInfo = new User({
+                    name: body.name,
+                    email: body.email,
+                    password: hash,
+                });
+                await userInfo.save().then((value) => {
+                    console.log(value);
+                    res.json(value);
+                });
+            }
+        });
+    }
 
-module.exports = {createUser, retreiveUsers, retreiveSingleUser};
+
+}
+
+
+module.exports = {createUser, retreiveUsers, retreiveSingleUser, signUp};
