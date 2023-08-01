@@ -32,7 +32,7 @@ const retreiveUsers = async (req, res) => {
     await User.find({}).then((value)=> {
         console.log(value);
         res.json(value);
-    }).then((e) => {
+    }).catch((e) => {
         res.status(400).json(`message: ${error.message}`);
     });
 
@@ -51,7 +51,7 @@ const retreiveSingleUser = async (req, res) => {
     await User.findById(id).exec().then((value) => {
         console.log(value);
         res.json(value);
-    }).then((e) => {
+    }).catch((e) => {
         res.status(400).json(`message: $(e.message)`);
     });
 
@@ -72,12 +72,12 @@ const signUp = (req, res) => {
                     name: body.name,
                     email: body.email,
                     password: hash,
-                }).then((e) => {
-                    res.status(400).json("message: ${e.message}");
-                });
+                })
                 await userInfo.save().then((value) => {
                     console.log(value);
                     res.json(value);
+                }).catch((e) => {
+                    res.status(400).json("message: ${e.message}");
                 });
             }
         });
