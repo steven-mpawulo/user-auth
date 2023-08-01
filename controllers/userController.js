@@ -83,6 +83,7 @@ const logIn = async (req, res) => {
     } else {
         await User.findOne({email}).then((value) => {
             console.log(value);
+            console.log(err);
             bcrypt.compare(password, value.password, function (err, result){
                 if (err){
                     res.status(400).json("message: something went wrong");
@@ -97,4 +98,4 @@ const logIn = async (req, res) => {
 }
 
 
-module.exports = {createUser, retreiveUsers, retreiveSingleUser, signUp};
+module.exports = {createUser, retreiveUsers, retreiveSingleUser, signUp, logIn};
