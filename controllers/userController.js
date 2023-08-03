@@ -116,9 +116,10 @@ const logIn = async (req, res) => {
 // update single user information in database
 const updateUserInfo = async (req, res) => {
     const id = req.params.id;
+    console.log(id);
     const body = req.body;
     const { name, email } = body;
-    if (id !== null && Object.keys(body).length !== 0) {
+    if (id && Object.keys(body).length !== 0) {
         if (name) {
             await User.findOneAndUpdate({ _id: id }, { name: name }, {
                 new: true
@@ -142,7 +143,6 @@ const updateUserInfo = async (req, res) => {
         } else {
             res.status(400).json({"message": "please provide data to update"});
         }
-
 
     } else {
         res.status(400).json({
