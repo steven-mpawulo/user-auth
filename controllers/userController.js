@@ -93,7 +93,6 @@ const logIn = async (req, res) => {
     } else {
         await User.findOne({email}).then((value) => {
             console.log(value);
-            console.log(err);
             bcrypt.compare(password, value.password, function (err, result){
                 if (err){
                     res.status(400).json("message: something went wrong");
@@ -103,11 +102,41 @@ const logIn = async (req, res) => {
                 }
             });
         }).catch((e) => {
-            res.status(400).json(`message: ${e.message}`);
+            console.log(e);
+            res.status(400).json("message: user not found");
         })
     }
 
 }
 
+const deleteUser = async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    if(id !== null){
+        await User.findByIdAndDelete(id).then((value) => {
+            console.log(value);
+            if (value){
+                res.status(201).json(value);
+            } else {
+                res.status(400).json({
+                    message: "something went wrong"
+                })
+            }
+            
+           }).catch((e) => {
+            console.log(e.message);
+            res.status(400).json({
+                "message": e.message
+            });
+           });
+    } else {
+        res.status(400).json({
+            message: "something went wrong"
+        })
+    }
+   
 
-module.exports = {createUser, retreiveUsers, retreiveSingleUser, signUp, logIn};
+}
+
+
+module.exports = {createUser, retreiveUsers, retreiveSingleUser, signUp, logIn, deleteUser};
