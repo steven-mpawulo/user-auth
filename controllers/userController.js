@@ -119,7 +119,7 @@ const updateUserInfo = async (req, res) => {
     const body = req.body;
     const { name, email } = body;
     if (id !== null && Object.keys(body).length !== 0) {
-        if (name !== null) {
+        if (name) {
             await User.findOneAndUpdate({ _id: id }, { name: name }, {
                 new: true
             }).then((value) => {
@@ -129,7 +129,7 @@ const updateUserInfo = async (req, res) => {
                 console.log(e.message);
                 res.status(400).json({ "message": e.message })
             });
-        } else if (email !== null) {
+        } else if (email) {
             await User.findOneAndUpdate({ _id: id }, { email: email }, {
                 new: true
             }).then((value) => {
@@ -139,6 +139,8 @@ const updateUserInfo = async (req, res) => {
                 console.log(e.message);
                 res.status(400).json({ "message": e.message })
             });
+        } else {
+            res.status(400).json({"message": "please provide data to update"});
         }
 
 
