@@ -142,6 +142,10 @@ const updateUserInfo = async (req, res) => {
         }
 
 
+    } else {
+        res.status(400).json({
+            "message": "Please provide data"
+        })
     }
 
 }
